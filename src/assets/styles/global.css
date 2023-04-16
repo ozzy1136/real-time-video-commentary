@@ -1,0 +1,15 @@
+@import "reset.css";
+
+:root {
+	--fz-root: 1rem;
+}
+
+:where(.section-container) {
+	display: grid;
+	grid-template-columns:
+		[full-start] var(--page-gap-size, 8px) [wrapper-start] var(
+			--content-columns,
+			1fr
+		)
+		[wrapper-end] var(--page-gap-size, 8px) [full-end];
+}

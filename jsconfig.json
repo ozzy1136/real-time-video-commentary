@@ -1,8 +1,18 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@styles/*": ["src/assets/styles/*"],
+			"@components/*": ["src/components/*.jsx"],
+			"@context/*": ["src/context/*.js"],
+			"@data/*": ["src/data/*"],
+			"@features/*": ["src/features/*.jsx"],
+			"@hooks/*": ["src/hooks.js"],
+			"@layouts/*": ["src/layouts/*.jsx"],
+			"@lib/*": ["src/lib/*.js"],
+			"@services/*": ["src/services/*.js"],
+			"@utils/*": ["src/utils/*.js"]
 		}
 	},
-	"exclude": ["node_modules", "**/node_modules/*", ".next"]
+	"include": ["src"]
 }
