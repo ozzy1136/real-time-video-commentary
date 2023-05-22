@@ -1,0 +1,24 @@
+.buttonLogOutWrapper {
+	grid-column-start: wrapper-start;
+	text-align: end;
+	margin-block-end: 1.5em;
+}
+
+.buttonLogOut {
+	border: unset;
+	border-width: 3px;
+	border-style: ridge;
+	border-color: var(--c-dark-purple-50);
+	background-color: var(--c-dutch-white-20);
+	color: var(--c-dark-purple-50);
+	padding-inline: 0.5em;
+	padding-block: 0.4em;
+}
+
+.contentContainer {
+	grid-column: wrapper;
+}
+
+.warningContainer {
+	grid-column: wrapper;
+}

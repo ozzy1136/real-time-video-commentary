@@ -1,0 +1,19 @@
+.heading,
+.subheading {
+	margin-block-end: 0.5em;
+	grid-column: wrapper;
+	font-weight: bold;
+}
+
+.appDescription {
+	margin-block-end: 2em;
+	grid-column: wrapper;
+}
+
+.authUiWrapper {
+	grid-column: wrapper;
+	padding-block: 1rem;
+	padding-inline: 2rem;
+	border-radius: 4px;
+	background-color: var(--c-dutch-white-30);
+}
