@@ -50,7 +50,7 @@ body {
 	padding-block: 5vh;
 
 	@media screen and (min-width: 720px) {
-		--page-gap-size: 15vw;
+		--page-gap-size: 12vw;
 	}
 }
 

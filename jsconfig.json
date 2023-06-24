@@ -7,7 +7,7 @@
 			"@context/*": ["src/context/*.js"],
 			"@data/*": ["src/data/*"],
 			"@features/*": ["src/features/*.jsx"],
-			"@hooks/*": ["src/hooks.js"],
+			"@hooks/*": ["src//hooks/*.js"],
 			"@layouts/*": ["src/layouts/*.jsx"],
 			"@lib/*": ["src/lib/*.js"],
 			"@services/*": ["src/services/*.js"],
