@@ -24,7 +24,6 @@ export default function () {
 		if (apiResponse !== null) {
 			(async () => {
 				const { results } = await apiResponse.json();
-				console.log(results);
 				setPopularMoviesList(results);
 			})();
 		}
