@@ -2,17 +2,15 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@styles/*": ["src/assets/styles/*"],
-			"@components/*": ["src/components/*.jsx"],
-			"@context/*": ["src/context/*.js"],
-			"@data/*": ["src/data/*"],
-			"@features/*": ["src/features/*.jsx"],
-			"@hooks/*": ["src//hooks/*.js"],
-			"@layouts/*": ["src/layouts/*.jsx"],
-			"@lib/*": ["src/lib/*.js"],
-			"@services/*": ["src/services/*.js"],
-			"@utils/*": ["src/utils/*.js"]
+			"@styles/*": ["app/_assets/styles/*"],
+			"@components/*": ["app/_components/*.jsx"],
+			"@context/*": ["app/_context/*.js"],
+			"@data/*": ["app/_data/*.js", "app/_data/*.json"],
+			"@hooks/*": ["app/_hooks/*.js"],
+			"@lib/*": ["app/_lib/*.js"],
+			"@services/*": ["app/_services/*.js"],
+			"@utils/*": ["app/_utils/*.js"]
 		}
 	},
-	"include": ["src"]
+	"include": ["app", "middleware.js"]
 }

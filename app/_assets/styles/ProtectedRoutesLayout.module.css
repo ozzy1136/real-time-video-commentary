@@ -1,0 +1,4 @@
+.buttonSignOutWrapper {
+	grid-column-end: wrapper-end;
+	justify-self: flex-end;
+}
