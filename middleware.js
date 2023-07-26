@@ -11,16 +11,23 @@ export async function middleware(req) {
 	} = await supabaseClient.auth.getSession();
 
 	if (!session) {
-		return NextResponse.redirect(
-			`${req.nextUrl.origin}/?=redirectedFrom=${encodeURIComponent(
-				req.nextUrl.pathname
-			)}`
-		);
+		if (
+			req.nextUrl.pathname.startsWith("/dashboard") ||
+			req.nextUrl.pathname.startsWith("/movies/")
+		) {
+			return NextResponse.redirect(
+				`${req.nextUrl.origin}/?=redirectedFrom=${encodeURIComponent(
+					req.nextUrl.pathname
+				)}`
+			);
+		}
+	}
+
+	if (session) {
+		if (req.nextUrl.pathname === "/") {
+			return NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
+		}
 	}
 
 	return res;
 }
-
-export const config = {
-	matcher: ["/dashboard", "/movies/(.*)"],
-};
