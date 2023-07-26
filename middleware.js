@@ -16,7 +16,7 @@ export async function middleware(req) {
 			req.nextUrl.pathname.startsWith("/movies/")
 		) {
 			return NextResponse.redirect(
-				`${req.nextUrl.origin}/?=redirectedFrom=${encodeURIComponent(
+				`${req.nextUrl.origin}/?redirectedFrom=${encodeURIComponent(
 					req.nextUrl.pathname
 				)}`
 			);
