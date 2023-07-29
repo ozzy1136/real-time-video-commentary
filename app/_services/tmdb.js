@@ -1,4 +1,3 @@
-import { TMDB_API_BASE_URL } from "@data/constants";
 import createURL from "@utils/createURL";
 
 /**
@@ -38,13 +37,15 @@ import createURL from "@utils/createURL";
  */
 export async function getMovieDetails(id) {
 	if (id.match(/^(?=(\d{1,10}))\1$/)) {
-		const apiUrl = createURL(TMDB_API_BASE_URL, `/movie/${id}`);
-		const fetchRequestForMovieDetails = new Request(apiUrl.href, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-			},
-		});
+		const fetchRequestForMovieDetails = new Request(
+			`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${id}`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
+				},
+			}
+		);
 		const response = await fetch(fetchRequestForMovieDetails);
 		const data = await response.json();
 		data.success = true;
@@ -55,13 +56,17 @@ export async function getMovieDetails(id) {
 }
 
 export async function getPopularMovies() {
-	const requestURL = createURL(TMDB_API_BASE_URL, "/discover/movie", [
-		["region", "US"],
-		["release_date.gte", "2022-01-09"],
-		["watch_region", "US"],
-		["with_release_type", "4"],
-		["with_watch_monetization_types", "flatrate"],
-	]);
+	const requestURL = createURL(
+		process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
+		"/discover/movie",
+		[
+			["region", "US"],
+			["release_date.gte", "2022-01-09"],
+			["watch_region", "US"],
+			["with_release_type", "4"],
+			["with_watch_monetization_types", "flatrate"],
+		]
+	);
 
 	const fetchRequestForPopularMovies = new Request(requestURL.href, {
 		method: "GET",
@@ -82,22 +87,4 @@ export async function getPopularMovies() {
 	const data = await response.json();
 	data.success = true;
 	return Promise.resolve(data);
-}
-
-export async function getTmdbApiConfig() {
-	const fetchRequestForApiConfig = new Request(
-		`${TMDB_API_BASE_URL}/configuration`,
-		{
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-			},
-		}
-	);
-	const response = await fetch(fetchRequestForApiConfig);
-	if (!response.ok) {
-		throw new Error(response.statusText);
-	}
-	const tmdbApiConfig = await response.json();
-	return tmdbApiConfig;
 }
