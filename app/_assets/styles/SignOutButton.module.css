@@ -1,7 +1,7 @@
 .buttonSignOut {
 	border: unset;
-	border-width: 3px;
-	border-style: ridge;
+	border-width: 1px;
+	border-style: solid;
 	border-color: var(--c-dark-purple-50);
 	background-color: var(--c-dutch-white-20);
 	color: var(--c-dark-purple-50);
