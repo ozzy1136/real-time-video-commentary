@@ -9,7 +9,8 @@
 			"@hooks/*": ["app/_hooks/*.js"],
 			"@lib/*": ["app/_lib/*.js"],
 			"@services/*": ["app/_services/*.js"],
-			"@utils/*": ["app/_utils/*.js"]
+			"@utils/*": ["app/_utils/*.js"],
+			"@images/*": ["app/_assets/images/*"]
 		}
 	},
 	"include": ["app", "middleware.js"]
