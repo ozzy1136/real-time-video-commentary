@@ -1,3 +1,39 @@
-.titleWrapper {
+.container {
+	margin-block-end: 8vh;
+	row-gap: 6vh;
+}
+
+.titleWrapper,
+.posterWrapper,
+.partiesWrapper {
 	grid-column: wrapper;
+}
+
+.posterWrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.poster {
+	width: 300px;
+	aspect-ratio: 2/3;
+}
+
+.runtimeWrapper {
+	margin-block-end: 1rem;
+}
+
+@media screen and (min-width: 800px) {
+	.container {
+		--content-columns: 1fr 2rem 1fr;
+	}
+
+	.titleWrapper {
+		grid-row-start: 1;
+		grid-column: wrapper-start / span 1;
+	}
+
+	.posterWrapper {
+		grid-column: span 1 / wrapper-end;
+	}
 }

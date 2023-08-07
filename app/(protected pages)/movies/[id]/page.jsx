@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 import styles from "@styles/MovieDetailsPage.module.css";
 import { getMovieDetails } from "@services/tmdb";
-import MoviePoster from "@components/MoviePoster";
+import ShazamMoviePoster from "@images/shazam-movie-poster.webp";
+import AvailableMovieWatchParties from "@components/AvailableMovieWatchParties";
 
 export const metadata = {
 	title: "Movie Details | Real Time Video Commentary",
@@ -16,17 +18,33 @@ export default async function MovieDetailsPage({ params }) {
 	}
 
 	return (
-		<div className="section-container">
+		<main className={`section-container ${styles.container}`}>
 			<div className={styles.titleWrapper}>
-				<MoviePoster
-					movieTitle={movieData.title}
-					posterPath={movieData.poster_path}
-				/>
-				<h1 className={styles.title}>Movie Title: {movieData.title}</h1>
+				<h1 className={styles.title}>{movieData.title}</h1>
 				<h2>{movieData.tagline}</h2>
+
+				<div className={styles.runtimeWrapper}>
+					<i>
+						{Math.floor(movieData.runtime / 60)} hours{" "}
+						{movieData.runtime % 60} minutes
+					</i>
+				</div>
 				<p>{movieData.overview}</p>
-				<i>{movieData.runtime % 60} minutes</i>
 			</div>
-		</div>
+			<div className={styles.posterWrapper}>
+				<Image
+					src={ShazamMoviePoster}
+					// src={`${process.env.NEXT_PUBLIC_TMDB_POSTERS_BASE_URL}${movieData.posterPath}`}
+					alt={`Theatrical poster for the movie ${movieData.title}`}
+					width={500}
+					height={750}
+					priority
+					className={styles.poster}
+				/>
+			</div>
+			<div className={styles.partiesWrapper}>
+				<AvailableMovieWatchParties id={movieData.id} />
+			</div>
+		</main>
 	);
 }
