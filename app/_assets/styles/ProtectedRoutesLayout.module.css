@@ -1,6 +1,6 @@
 .container {
 	padding-block: 1rem;
-	margin-block-end: 2rem;
+	margin-block-end: 6vh;
 	align-items: center;
 	background-color: var(--c-dutch-white-40);
 	box-shadow: 0px 1px 3px 0px #828282;

@@ -47,10 +47,6 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
 		segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto,
 		arial, sans-serif;
-
-	@media screen and (min-width: 720px) {
-		--page-gap-size: 12vw;
-	}
 }
 
 h1 {
