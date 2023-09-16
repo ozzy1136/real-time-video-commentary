@@ -2,6 +2,11 @@
 
 import { useEffect } from "react";
 
+/**
+ * @param {Object} props
+ * @param {Error} props.error
+ * @param {() => void} props.reset
+ */
 export default function Error({ error, reset }) {
 	useEffect(() => {
 		if (error instanceof SyntaxError) {

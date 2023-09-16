@@ -1,9 +1,12 @@
 import Link from "next/link";
 
-import styles from "@styles/PopularMoviesList.module.css";
 import { getPopularMovies } from "@services/tmdb";
 
-export default async function PopularMoviesList() {
+/**
+ * @param {Object} props
+ * @param {{popularMoviesContainer: string}} props.classNames
+ */
+export default async function PopularMoviesList({ classNames }) {
 	const popularMoviesData = await getPopularMovies();
 
 	if (!popularMoviesData.success) {
@@ -18,9 +21,9 @@ export default async function PopularMoviesList() {
 	}
 
 	return (
-		<ul className={styles.container}>
+		<ul className={classNames.popularMoviesContainer}>
 			{popularMoviesData.results.map((movieInfo) => (
-				<li className={styles.listItem} key={movieInfo.id}>
+				<li key={`${movieInfo.id}`}>
 					<Link href={`/movies/${movieInfo.id}`}>
 						{movieInfo.title}
 					</Link>

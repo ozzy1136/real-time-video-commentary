@@ -4,12 +4,21 @@ import Image from "next/image";
 import styles from "@styles/MovieDetailsPage.module.css";
 import { getMovieDetails } from "@services/tmdb";
 import ShazamMoviePoster from "@images/shazam-movie-poster.webp";
-import AvailableMovieWatchParties from "@components/AvailableMovieWatchParties";
+import WatchPartyInfo from "@components/WatchPartyInfo";
 
 export const metadata = {
 	title: "Movie Details | Real Time Video Commentary",
 };
 
+/**
+ * @typedef {Object} RouteParams
+ * @property {string} id - Movie ID
+ */
+
+/**
+ * @param {Object} props
+ * @param {RouteParams} props.params
+ */
 export default async function MovieDetailsPage({ params }) {
 	const movieData = await getMovieDetails(params.id);
 
@@ -22,7 +31,6 @@ export default async function MovieDetailsPage({ params }) {
 			<div className={styles.titleWrapper}>
 				<h1 className={styles.title}>{movieData.title}</h1>
 				<h2>{movieData.tagline}</h2>
-
 				<div className={styles.runtimeWrapper}>
 					<i>
 						{Math.floor(movieData.runtime / 60)} hours{" "}
@@ -43,7 +51,7 @@ export default async function MovieDetailsPage({ params }) {
 				/>
 			</div>
 			<div className={styles.partiesWrapper}>
-				<AvailableMovieWatchParties id={movieData.id} />
+				<WatchPartyInfo id={movieData.id} />
 			</div>
 		</main>
 	);

@@ -2,6 +2,10 @@ import styles from "@styles/ProtectedRoutesLayout.module.css";
 import ButtonSignOut from "@components/ButtonSignOut";
 import GlobalNav from "@components/GlobalNav";
 
+/**
+ * @param {Object} props
+ * @param {JSX.Element} props.children
+ */
 export default async function ProtectedRoutesLayout({ children }) {
 	return (
 		<>
@@ -13,7 +17,9 @@ export default async function ProtectedRoutesLayout({ children }) {
 					}}
 				/>
 				<div className={styles.buttonSignOutWrapper}>
-					<ButtonSignOut />
+					<ButtonSignOut
+						classNames={{ buttonSignOut: styles.buttonSignOut }}
+					/>
 				</div>
 			</div>
 			{children}

@@ -13,7 +13,12 @@ export default async function DashboardPage() {
 				<h2>Saved watch parties</h2>
 				<section>
 					<h2>Available movies</h2>
-					<PopularMoviesList />
+					<PopularMoviesList
+						classNames={{
+							popularMoviesContainer:
+								styles.popularMoviesContainer,
+						}}
+					/>
 				</section>
 			</main>
 		</div>

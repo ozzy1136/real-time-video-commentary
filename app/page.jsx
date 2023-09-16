@@ -9,8 +9,20 @@ export const metadata = {
 export default async function HomePage() {
 	return (
 		<main>
-			<HomePageContent styles={styles} />
-			<AuthSignIn styles={styles} />
+			<HomePageContent
+				classNames={{
+					contentContainer: styles.contentContainer,
+					heading: styles.heading,
+					subheading: styles.subheading,
+					appDescription: styles.subheading,
+				}}
+			/>
+			<AuthSignIn
+				classNames={{
+					authUiContainer: styles.authUiContainer,
+					authenticationMessage: styles.authenticationMessage,
+				}}
+			/>
 		</main>
 	);
 }

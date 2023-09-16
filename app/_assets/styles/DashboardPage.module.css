@@ -2,3 +2,12 @@
 	grid-column: wrapper;
 	margin-block-end: 4rem;
 }
+
+.popularMoviesContainer {
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 250px);
+	row-gap: 1em;
+	column-gap: 2em;
+	justify-content: space-between;
+}

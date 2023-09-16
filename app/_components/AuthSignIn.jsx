@@ -1,17 +1,20 @@
 "use client";
 
 import { Auth } from "@supabase/auth-ui-react";
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import customAuthUiTheme from "@data/customAuthUiTheme";
-import { supabaseClientComponentClient } from "@lib/supabaseClient";
 
-export default function AuthSignIn({ styles }) {
+/**
+ * @param {Object} props
+ * @param {{authUiContainer: string, authenticationMessage: string}} props.classNames - CSS classes used by component
+ */
+export default function AuthSignIn({ classNames }) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const supabaseClient = supabaseClientComponentClient();
+	const supabaseClient = createClientComponentClient();
 
 	useEffect(() => {
 		const {
@@ -41,9 +44,9 @@ export default function AuthSignIn({ styles }) {
 
 	return (
 		<div className="section-container">
-			<div className={`${styles.authUiContainer}`}>
+			<div className={`${classNames.authUiContainer}`}>
 				{searchParams.has("redirectedFrom") && (
-					<p className={styles.authenticationMessage}>
+					<p className={classNames.authenticationMessage}>
 						You must sign in to continue
 					</p>
 				)}

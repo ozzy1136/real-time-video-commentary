@@ -46,3 +46,14 @@
 	grid-column-end: wrapper-end;
 	justify-self: flex-end;
 }
+
+.buttonSignOut {
+	border: unset;
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--c-dark-purple-50);
+	background-color: var(--c-dutch-white-20);
+	color: var(--c-dark-purple-50);
+	padding-inline: 0.5em;
+	padding-block: 0.4em;
+}

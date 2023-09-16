@@ -2,12 +2,15 @@
 
 import { useRouter } from "next/navigation";
 
-import styles from "@styles/SignOutButton.module.css";
-import { supabaseClientComponentClient } from "@lib/supabaseClient";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function ButtonSignOut() {
+/**
+ * @param {Object} props
+ * @param {{buttonSignOut: string}} props.classNames
+ */
+export default function ButtonSignOut({ classNames }) {
 	const router = useRouter();
-	const supabaseClient = supabaseClientComponentClient();
+	const supabaseClient = createClientComponentClient();
 
 	supabaseClient.auth.onAuthStateChange((e) => {
 		switch (e) {
@@ -24,7 +27,7 @@ export default function ButtonSignOut() {
 	return (
 		<>
 			<button
-				className={styles.buttonSignOut}
+				className={classNames.buttonSignOut}
 				onClick={async (e) => {
 					e.currentTarget.disabled = true;
 					await supabaseClient.auth.signOut();

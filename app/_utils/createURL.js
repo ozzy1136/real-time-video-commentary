@@ -1,8 +1,7 @@
 /**
- *
- * @param {String} baseUrl
- * @param {String} pathname
- * @param {Array<[String: key, String: value]>} searchParams
+ * @param {string} baseUrl
+ * @param {string} [pathname]
+ * @param {Array<{key: string, value: string}>} [searchParams]
  * @returns {URL}
  */
 export default function createURL(baseUrl, pathname, searchParams) {
@@ -12,7 +11,7 @@ export default function createURL(baseUrl, pathname, searchParams) {
 		url.pathname = `${url.pathname}${pathname}`;
 	}
 
-	if (searchParams) {
+	if (searchParams?.length) {
 		for (const param of searchParams) {
 			url.searchParams.append(param[0], param[1]);
 		}
