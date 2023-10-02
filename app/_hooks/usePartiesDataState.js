@@ -64,7 +64,7 @@ function fetchReducer(state, action) {
 /**
  * @param {number} id
  */
-export default function (id) {
+export default function usePartiesDataState(id) {
 	const supabaseClient = createClientComponentClient();
 	const [state, dispatch] = useReducer(fetchReducer, initPartiesState);
 

@@ -1,23 +1,18 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import createAvailablePartyTimes from "@utils/createAvailablePartyTimes";
-
-function handleCreatePartySubmit(e) {
-	e.preventDefault();
-
-	alert("Your party information was submitted successfully");
-}
+import { createDateElDateString } from "@utils/createDateElementDate";
 
 /**
  * @param {Object} props
  * @param {Array<import("@hooks/usePartiesDataState").PartyData>} props.existingPartiesData
  */
 export default function CreateWatchParty({ existingPartiesData }) {
-	const today = useMemo(() => new Date(), []);
-	const todayDateString = today.toISOString().split("T")[0];
+	const todayDateString = createDateElDateString(new Date());
 	const [partyDateString, setPartyDateString] = useState(todayDateString);
+	const [partyTimeString, setPartyTimeString] = useState("");
 	const [availablePartyTimes, setAvailablePartyTimes] = useState(
 		/**
 		 * @type {Array<import("@utils/createAvailablePartyTimes").AvailablePartyDetails>}
@@ -25,20 +20,25 @@ export default function CreateWatchParty({ existingPartiesData }) {
 		([])
 	);
 
+	function handleFormSubmit(e) {
+		e.preventDefault();
+
+		alert("Form was submitted");
+	}
+
 	useEffect(() => {
 		setAvailablePartyTimes(
 			createAvailablePartyTimes(
-				today,
 				partyDateString,
 				existingPartiesData.map((i) =>
 					new Date(i.start_time).toString()
 				)
 			)
 		);
-	}, [today, partyDateString, existingPartiesData]);
+	}, [partyDateString, existingPartiesData]);
 
 	return (
-		<form onSubmit={handleCreatePartySubmit}>
+		<form onSubmit={handleFormSubmit}>
 			<label>
 				Pick a date{" "}
 				<input
@@ -47,13 +47,18 @@ export default function CreateWatchParty({ existingPartiesData }) {
 					name="party-date"
 					id="party-date"
 					onChange={(e) => setPartyDateString(e.currentTarget.value)}
-					min={`${todayDateString}`}
+					min={todayDateString}
 					required
 				/>
 			</label>
 			<label>
 				Pick a time
-				<select name="party-time" required>
+				<select
+					name="party-time"
+					value={partyTimeString}
+					onChange={(e) => setPartyTimeString(e.currentTarget.value)}
+					required
+				>
 					{availablePartyTimes.map(([hour, minute]) => (
 						<option
 							value={`${hour}:${minute}`}

@@ -3,23 +3,24 @@
  * @typedef {[hour: number, minute: number]} AvailablePartyDetails
  */
 
+import { createDateElDateString } from "./createDateElementDate";
+
 /**
  * @typedef {Array<AvailablePartyDetails>} AvailablePartiesTimes
  */
 
 /**
- * @param {Date} today
  * @param {string} partyDateString
  * @param {Array<string>} existingPartiesTimes Will only have times for the selected party date
  * @returns {AvailablePartiesTimes}
  */
 export default function createAvailablePartyTimes(
-	today,
 	partyDateString,
 	existingPartiesTimes
 ) {
+	const today = new Date();
 	const partyDate =
-		partyDateString > today.toISOString().split("T")[0]
+		partyDateString > createDateElDateString(today)
 			? new Date(`${partyDateString}T00:00:00`)
 			: new Date(today);
 	const dayAfterPartyDate = new Date(
