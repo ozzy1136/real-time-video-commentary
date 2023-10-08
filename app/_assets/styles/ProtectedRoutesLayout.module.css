@@ -56,4 +56,8 @@
 	color: var(--c-dark-purple-50);
 	padding-inline: 0.5em;
 	padding-block: 0.4em;
+
+	&:hover {
+		background-color: var(--c-dutch-white-30);
+	}
 }
