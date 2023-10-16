@@ -1,5 +1,6 @@
 import createURL from "@utils/createURL";
 import movieData from "@data/shazamMovieData";
+import popularMoviesData from "@data/popularMoviesData";
 
 /**
  * @typedef {Object} MovieDetails
@@ -90,35 +91,38 @@ export async function getMovieDetails(id) {
  * @returns {Promise<PopularMovies>}
  */
 export async function getPopularMovies() {
-	const requestURL = createURL(
-		process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
-		"/discover/movie",
-		[
-			["region", "US"],
-			["release_date.gte", "2022-01-09"],
-			["watch_region", "US"],
-			["with_release_type", "4"],
-			["with_watch_monetization_types", "flatrate"],
-		]
-	);
+	popularMoviesData.success = true;
+	return popularMoviesData;
 
-	const fetchRequestForPopularMovies = new Request(requestURL.href, {
-		method: "GET",
-		headers: {
-			Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-		},
-		cache: "no-cache",
-	});
+	// const requestURL = createURL(
+	// 	process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
+	// 	"/discover/movie",
+	// 	[
+	// 		["region", "US"],
+	// 		["release_date.gte", "2022-01-09"],
+	// 		["watch_region", "US"],
+	// 		["with_release_type", "4"],
+	// 		["with_watch_monetization_types", "flatrate"],
+	// 	]
+	// );
 
-	const response = await fetch(fetchRequestForPopularMovies);
+	// const fetchRequestForPopularMovies = new Request(requestURL.href, {
+	// 	method: "GET",
+	// 	headers: {
+	// 		Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
+	// 	},
+	// 	cache: "no-cache",
+	// });
 
-	if (!response.ok) {
-		return Promise.resolve({
-			success: false,
-		});
-	}
+	// const response = await fetch(fetchRequestForPopularMovies);
 
-	const data = await response.json();
-	data.success = true;
-	return Promise.resolve(data);
+	// if (!response.ok) {
+	// 	return Promise.resolve({
+	// 		success: false,
+	// 	});
+	// }
+
+	// const data = await response.json();
+	// data.success = true;
+	// return Promise.resolve(data);
 }
