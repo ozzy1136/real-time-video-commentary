@@ -1,5 +1,8 @@
 {
 	"compilerOptions": {
+		"target": "ES6",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
 		"baseUrl": ".",
 		"paths": {
 			"@styles/*": ["app/_assets/styles/*"],
@@ -11,7 +14,8 @@
 			"@services/*": ["app/_services/*.js"],
 			"@utils/*": ["app/_utils/*.js"],
 			"@images/*": ["app/_assets/images/*"]
-		}
+		},
+		"checkJs": true
 	},
 	"include": ["app", "middleware.js"]
 }
