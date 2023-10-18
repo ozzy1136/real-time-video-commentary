@@ -38,8 +38,8 @@ import popularMoviesData from "@data/popularMoviesData";
  * @returns {Promise<MovieDetails>}
  */
 export async function getMovieDetails(id) {
-	movieData.success = true;
-	return movieData;
+	const data = { ...movieData, success: true };
+	return data;
 	// if (id.match(/^(?=(\d{1,10}))\1$/)) {
 	// 	const fetchRequestForMovieDetails = new Request(
 	// 		`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${id}`,
@@ -91,8 +91,8 @@ export async function getMovieDetails(id) {
  * @returns {Promise<PopularMovies>}
  */
 export async function getPopularMovies() {
-	popularMoviesData.success = true;
-	return popularMoviesData;
+	const data = { ...popularMoviesData, success: true };
+	return data;
 
 	// const requestURL = createURL(
 	// 	process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,

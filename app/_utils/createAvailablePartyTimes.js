@@ -1,9 +1,9 @@
+import { createDateElDateString } from "./createDateElementDate";
+
 /**
  * Array containing the hour and minute for the party
  * @typedef {[hour: number, minute: number]} AvailablePartyDetails
  */
-
-import { createDateElDateString } from "./createDateElementDate";
 
 /**
  * @typedef {Array<AvailablePartyDetails>} AvailablePartiesTimes
@@ -38,6 +38,9 @@ export default function createAvailablePartyTimes(
 		);
 	}
 
+	/**
+	 * @type {AvailablePartiesTimes}
+	 */
 	const availablePartyTimes = [];
 
 	while (partyDate < dayAfterPartyDate) {

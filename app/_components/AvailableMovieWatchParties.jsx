@@ -1,6 +1,10 @@
+import { z } from "zod";
+
+import { partyDataSchema } from "@lib/zod/schemas/index";
+
 /**
  * @param {Object} props
- * @param {Array<import("@hooks/usePartiesDataState").PartyData>} props.partiesData
+ * @param {Array<z.infer<typeof partyDataSchema>>} props.partiesData
  */
 export default function AvailableMovieWatchParties({ partiesData }) {
 	return (

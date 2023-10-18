@@ -1,58 +1,55 @@
+import { z } from "zod";
+
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useReducer, useEffect } from "react";
-import { PostgrestError } from "@supabase/supabase-js";
+
+import { partyDataSchema, postgrestErrorSchema } from "@lib/zod/schemas/index";
+
+const partyReducerActionSchema = z.discriminatedUnion("type", [
+	z.object({
+		type: z.literal("fetch_error"),
+		payload: postgrestErrorSchema,
+	}),
+	z.object({
+		type: z.literal("fetch_success"),
+		payload: z.array(partyDataSchema),
+	}),
+]);
+
+const partyStateSchema = z.discriminatedUnion("status", [
+	z.object({ status: z.literal("loading") }),
+	z.object({ status: z.literal("success"), data: z.array(partyDataSchema) }),
+	z.object({ status: z.literal("error"), error: postgrestErrorSchema }),
+]);
 
 /**
- * @typedef {Object} PartyData
- * @property {string} created_at
- * @property {string} creator_id
- * @property {string} id
- * @property {number} movie_runtime
- * @property {string} start_time
- * @property {number} tmdb_id
- */
-
-/**
- * @typedef {Object} PartiesState
- * @property {boolean} isLoading
- * @property {?Array<PartyData>} data
- * @property {?PostgrestError} error
- */
-
-/**
- * @type {PartiesState}
+ * @type {z.infer<typeof partyStateSchema>}
  */
 const initPartiesState = {
-	isLoading: true,
-	data: null,
-	error: null,
+	status: "loading",
 };
 
 /**
  * @callback PartiesReducer
- * @param {PartiesState} state
- * @param {Object} action
- * @param {"fetch_error"|"fetch_success"} action.type
- * @param {PostgrestError|Array<PartyData>} action.payload
- * @returns {PartiesState}
+ * @param {z.infer<typeof partyStateSchema>} state
+ * @param {z.infer<typeof partyReducerActionSchema>} action
+ * @returns {z.infer<typeof partyStateSchema>}
  */
 
 /**
  * @type {PartiesReducer}
  */
-function fetchReducer(state, action) {
+function fetchReducer(_, action) {
 	switch (action.type) {
 		case "fetch_error": {
 			return {
-				...state,
-				isLoading: false,
+				status: "error",
 				error: action.payload,
 			};
 		}
 		case "fetch_success": {
 			return {
-				...state,
-				isLoading: false,
+				status: "success",
 				data: action.payload,
 			};
 		}

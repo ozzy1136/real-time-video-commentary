@@ -11,10 +11,10 @@ import usePartiesDataState from "@hooks/usePartiesDataState";
 export default function WatchPartyInfo({ id }) {
 	const partiesDataState = usePartiesDataState(id);
 
-	if (partiesDataState.isLoading)
+	if (partiesDataState.status === "loading")
 		return <p>Loading available watch parties...</p>;
 
-	if (partiesDataState.error)
+	if (partiesDataState.status === "error")
 		return (
 			<>
 				<p>

@@ -5,14 +5,14 @@
  */
 export function createDateElDateString(dateObj) {
 	let yyyy = dateObj.getFullYear();
-	let mm = dateObj.getMonth() + 1;
-	let dd = dateObj.getDate();
+	let mm = `${dateObj.getMonth() + 1}`;
+	let dd = `${dateObj.getDate()}`;
 
-	if (mm < 10) {
+	if (parseInt(mm, 10) < 10) {
 		mm = "0" + mm;
 	}
 
-	if (dd < 10) {
+	if (parseInt(dd, 10) < 10) {
 		dd = "0" + dd;
 	}
 

@@ -8,7 +8,6 @@ export const dynamic = "force-dynamic";
 
 /**
  * @param {NextRequest} request
- * @returns {NextResponse}
  */
 export async function GET(request) {
 	const requestUrl = createURL(request.url);
