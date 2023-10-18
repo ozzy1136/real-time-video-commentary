@@ -1,8 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "ES6",
-		"module": "NodeNext",
-		"moduleResolution": "nodenext",
+		"module": "CommonJS",
 		"baseUrl": ".",
 		"paths": {
 			"@styles/*": ["app/_assets/styles/*"],
@@ -15,7 +14,8 @@
 			"@utils/*": ["app/_utils/*.js"],
 			"@images/*": ["app/_assets/images/*"]
 		},
-		"checkJs": true
+		"checkJs": true,
+		"jsx": "react-jsx"
 	},
 	"include": ["app", "middleware.js"]
 }
