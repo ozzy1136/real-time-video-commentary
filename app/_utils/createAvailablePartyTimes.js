@@ -1,17 +1,15 @@
+import { z } from "zod";
+
 import { createDateElDateString } from "./createDateElementDate";
+import { availablePartyTimeSchema } from "@lib/zod/schemas/index";
 
 /**
- * Array containing the hour and minute for the party
- * @typedef {[hour: number, minute: number]} AvailablePartyDetails
- */
-
-/**
- * @typedef {Array<AvailablePartyDetails>} AvailablePartiesTimes
+ * @typedef {Array<z.infer<typeof availablePartyTimeSchema>>} AvailablePartiesTimes
  */
 
 /**
  * @param {string} partyDateString
- * @param {Array<string>} existingPartiesTimes Will only have times for the selected party date
+ * @param {Array<string>} existingPartiesTimes Result of calling toString on Dates for existing parties start time
  * @returns {AvailablePartiesTimes}
  */
 export default function createAvailablePartyTimes(
