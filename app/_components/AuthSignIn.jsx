@@ -2,6 +2,7 @@
 
 import { Auth } from "@supabase/auth-ui-react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 

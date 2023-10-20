@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+import { useRouter } from "next/navigation";
 
 /**
  * @param {Object} props
