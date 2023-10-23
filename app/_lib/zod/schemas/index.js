@@ -18,7 +18,4 @@ export const postgrestErrorSchema = z
 	})
 	.nullable();
 
-export const availablePartyTimeSchema = z.tuple([
-	z.number().int().nonnegative().lte(23),
-	z.number().int().nonnegative().lte(59),
-]);
+export const timeStringSchema = z.string().datetime();

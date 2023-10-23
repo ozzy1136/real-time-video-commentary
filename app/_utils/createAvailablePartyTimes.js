@@ -1,16 +1,13 @@
 import { z } from "zod";
 
 import { createDateElDateString } from "./createDateElementDate";
-import { availablePartyTimeSchema } from "@lib/zod/schemas/index";
 
-/**
- * @typedef {Array<z.infer<typeof availablePartyTimeSchema>>} AvailablePartiesTimes
- */
+const availablePartyTimeSchema = z.date();
 
 /**
  * @param {string} partyDateString
- * @param {Array<string>} existingPartiesTimes Result of calling toString on Dates for existing parties start time
- * @returns {AvailablePartiesTimes}
+ * @param {Array<number>} existingPartiesTimes Result of calling toString on Dates for existing parties start time
+ * @returns {Array<z.infer<typeof availablePartyTimeSchema>>}
  */
 export default function createAvailablePartyTimes(
 	partyDateString,
@@ -28,7 +25,7 @@ export default function createAvailablePartyTimes(
 	);
 	const partyIntervalsInMinutes = 20;
 
-	if (partyDate.toISOString() === today.toISOString()) {
+	if (partyDate.getTime() === today.getTime()) {
 		partyDate.setMinutes(
 			partyDate.getMinutes() +
 				partyIntervalsInMinutes -
@@ -36,17 +33,11 @@ export default function createAvailablePartyTimes(
 		);
 	}
 
-	/**
-	 * @type {AvailablePartiesTimes}
-	 */
 	const availablePartyTimes = [];
 
 	while (partyDate < dayAfterPartyDate) {
-		!existingPartiesTimes.includes(partyDate.toString()) &&
-			availablePartyTimes.push([
-				partyDate.getHours(),
-				partyDate.getMinutes(),
-			]);
+		!existingPartiesTimes.includes(partyDate.getTime()) &&
+			availablePartyTimes.push(new Date(partyDate));
 		partyDate.setMinutes(partyDate.getMinutes() + partyIntervalsInMinutes);
 	}
 
