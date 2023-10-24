@@ -3,11 +3,11 @@
 import { z } from "zod";
 import { Form, Field } from "houseform";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import createAvailablePartyTimes from "@utils/createAvailablePartyTimes";
 import { createDateElDateString } from "@utils/createDateElementDate";
-import { partyDataSchema } from "@lib/zod/schemas/index";
+import { partyDataSchema, timeStringSchema } from "@lib/zod/schemas/index";
 
 /**
  * @param {Object} props
@@ -21,24 +21,25 @@ export default function CreateWatchParty({ existingPartiesData }) {
 	const [availablePartyTimes, setAvailablePartyTimes] = useState(
 		createAvailablePartyTimes(todayDateString, existingPartiesDataTimes)
 	);
+	const [isLoading, setIsLoading] = useState(false);
 
 	/**
-	 * @param {React.FormEvent<HTMLFormElement>} formValues
+	 * @param {Record<string, any>} formValues
 	 */
 	async function handleFormSubmit(formValues) {
-		alert(JSON.stringify(formValues));
-		// const formData = new FormData(formValues.currentTarget);
-		// const res = await fetch("/api/watch-party/new", {
-		// 	method: "POST",
-		// 	body: formData,
-		// });
-		// const data = await res.json();
-		// console.log(data);
+		setIsLoading(true);
+		const res = await fetch("/api/watch-party/new", {
+			method: "POST",
+			body: JSON.stringify(formValues),
+		});
+		const data = await res.json();
+		console.log(JSON.stringify(data));
+		setIsLoading(false);
 	}
 
 	return (
 		<Form onSubmit={handleFormSubmit}>
-			{({ submit }) => {
+			{({ isValid, submit }) => {
 				return (
 					<form
 						onSubmit={(e) => {
@@ -89,7 +90,7 @@ export default function CreateWatchParty({ existingPartiesData }) {
 						</Field>
 						<Field
 							name="party-time"
-							onBlurValidate={z.string()}
+							onBlurValidate={timeStringSchema}
 							initialValue={availablePartyTimes[0]
 								.toTimeString()
 								.slice(0, 5)}
@@ -126,7 +127,9 @@ export default function CreateWatchParty({ existingPartiesData }) {
 								</div>
 							)}
 						</Field>
-						<button type="submit">Create Party</button>
+						<button disabled={!isValid || isLoading} type="submit">
+							Create Party
+						</button>
 					</form>
 				);
 			}}

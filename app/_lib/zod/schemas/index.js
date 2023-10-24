@@ -18,4 +18,5 @@ export const postgrestErrorSchema = z
 	})
 	.nullable();
 
-export const timeStringSchema = z.string().datetime();
+// TODO complete schema for time string
+export const timeStringSchema = z.string().regex(/[\d]{2}:[\d]{2}/);
