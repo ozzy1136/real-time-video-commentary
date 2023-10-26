@@ -1,0 +1,4 @@
+.contentContainer {
+	grid-column: wrapper;
+	margin-block-end: 4rem;
+}

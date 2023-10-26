@@ -1,6 +1,5 @@
-import styles from "@styles/HomePage.module.css";
-import AuthSignIn from "@components/AuthSignIn";
-import HomePageContent from "@components/HomePageContent";
+import styles from "./index.module.css";
+import UserSignIn from "@features/UserSignIn";
 
 export const metadata = {
 	title: "Home | Real Time Video Commentary",
@@ -9,20 +8,17 @@ export const metadata = {
 export default async function HomePage() {
 	return (
 		<main>
-			<HomePageContent
-				classNames={{
-					contentContainer: styles.contentContainer,
-					heading: styles.heading,
-					subheading: styles.subheading,
-					appDescription: styles.subheading,
-				}}
-			/>
-			<AuthSignIn
-				classNames={{
-					authUiContainer: styles.authUiContainer,
-					authenticationMessage: styles.authenticationMessage,
-				}}
-			/>
+			<div className={`section-container ${styles.contentContainer}`}>
+				<h1 className={styles.heading}>Real Time Video Commentary</h1>
+				<h2 className={styles.subheading}>
+					Make movie binging a little more interesting
+				</h2>
+				<p className={styles.appDescription}>
+					Share your immediate thoughts on your favorite scenes while
+					watching with your friends!
+				</p>
+			</div>
+			<UserSignIn />
 		</main>
 	);
 }

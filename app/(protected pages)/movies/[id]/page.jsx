@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-import styles from "@styles/MovieDetailsPage.module.css";
+import styles from "./index.module.css";
 import { getMovieDetails } from "@services/tmdb";
 import ShazamMoviePoster from "@images/shazam-movie-poster.webp";
-import WatchPartyInfo from "@components/WatchPartyInfo";
+import WatchPartyInfo from "@features/WatchPartiesInfo";
 
 export const metadata = {
 	title: "Movie Details | Real Time Video Commentary",

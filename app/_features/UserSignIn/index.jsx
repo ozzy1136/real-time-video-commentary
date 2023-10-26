@@ -6,13 +6,10 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+import styles from "./index.module.css";
 import customAuthUiTheme from "@data/customAuthUiTheme";
 
-/**
- * @param {Object} props
- * @param {{authUiContainer: string, authenticationMessage: string}} props.classNames - CSS classes used by component
- */
-export default function AuthSignIn({ classNames }) {
+export default function AuthSignIn() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const supabaseClient = createClientComponentClient();
@@ -45,9 +42,9 @@ export default function AuthSignIn({ classNames }) {
 
 	return (
 		<div className="section-container">
-			<div className={`${classNames.authUiContainer}`}>
+			<div className={styles.authUiContainer}>
 				{searchParams.has("redirectedFrom") && (
-					<p className={classNames.authenticationMessage}>
+					<p className={styles.authenticationMessage}>
 						You must sign in to continue
 					</p>
 				)}

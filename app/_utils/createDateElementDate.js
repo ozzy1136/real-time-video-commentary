@@ -3,7 +3,7 @@
  * @param {Date} dateObj
  * @returns {string}
  */
-export function createDateElDateString(dateObj) {
+export default function createDateElDateString(dateObj) {
 	let yyyy = dateObj.getFullYear();
 	let mm = `${dateObj.getMonth() + 1}`;
 	let dd = `${dateObj.getDate()}`;

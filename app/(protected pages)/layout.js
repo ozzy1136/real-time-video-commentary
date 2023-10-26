@@ -1,6 +1,6 @@
-import styles from "@styles/ProtectedRoutesLayout.module.css";
+import styles from "./index.module.css";
 import ButtonSignOut from "@components/ButtonSignOut";
-import GlobalNav from "@components/GlobalNav";
+import GlobalNavLinks from "@components/GlobalNavLinks";
 
 /**
  * @param {Object} props
@@ -10,7 +10,7 @@ export default async function ProtectedRoutesLayout({ children }) {
 	return (
 		<>
 			<div className={`section-container ${styles.container}`}>
-				<GlobalNav
+				<GlobalNavLinks
 					classNames={{
 						container: styles.navContainer,
 						link: styles.navLink,

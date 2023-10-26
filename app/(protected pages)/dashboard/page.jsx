@@ -1,5 +1,5 @@
-import styles from "@styles/DashboardPage.module.css";
-import PopularMoviesList from "@components/PopularMoviesList";
+import styles from "./index.module.css";
+import PopularMoviesList from "@features/ShowTMDBPopularMovies";
 
 export const metadata = {
 	title: "Dashboard | Real Time Video Commentary",
@@ -13,12 +13,7 @@ export default async function DashboardPage() {
 				<h2>Saved watch parties</h2>
 				<section>
 					<h2>Available movies</h2>
-					<PopularMoviesList
-						classNames={{
-							popularMoviesContainer:
-								styles.popularMoviesContainer,
-						}}
-					/>
+					<PopularMoviesList />
 				</section>
 			</main>
 		</div>

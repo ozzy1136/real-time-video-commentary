@@ -10,10 +10,11 @@
 			"@context/*": ["app/_context/*.js"],
 			"@data/*": ["app/_data/*.js", "app/_data/*.json"],
 			"@hooks/*": ["app/_hooks/*.js"],
-			"@lib/*": ["app/_lib/*.js"],
+			"@lib/*": ["app/_lib/*/index.js"],
 			"@services/*": ["app/_services/*.js"],
 			"@utils/*": ["app/_utils/*.js"],
-			"@images/*": ["app/_assets/images/*"]
+			"@images/*": ["app/_assets/images/*"],
+			"@features/*": ["app/_features/*/index.jsx"]
 		},
 		"checkJs": true,
 		"jsx": "react-jsx"

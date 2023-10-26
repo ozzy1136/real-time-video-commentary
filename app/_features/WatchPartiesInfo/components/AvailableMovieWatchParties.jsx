@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { partyDataSchema } from "@lib/zod/schemas/index";
+import { partyDataSchema } from "@lib/zod/schemas";
 
 /**
  * @param {Object} props

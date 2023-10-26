@@ -1,8 +1,8 @@
 "use client";
 
-import AvailableMovieWatchParties from "@components/AvailableMovieWatchParties";
-import CreateWatchParty from "@components/CreateWatchParty";
-import usePartiesDataState from "@hooks/usePartiesDataState";
+import AvailableMovieWatchParties from "./components/AvailableMovieWatchParties";
+import CreateWatchParty from "./components/CreateWatchParty";
+import usePartiesDataState from "./hooks/usePartiesDataState";
 
 /**
  * @param {Object} props

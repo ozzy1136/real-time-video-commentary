@@ -1,18 +1,16 @@
-"use client";
-
 import { z } from "zod";
 import { Form, Field } from "houseform";
 
 import { useRef, useState } from "react";
 
 import createAvailablePartyTimes from "@utils/createAvailablePartyTimes";
-import { createDateElDateString } from "@utils/createDateElementDate";
+import createDateElDateString from "@utils/createDateElementDate";
 import {
 	dateStringSchema,
 	partyDataSchema,
 	timeStringSchema,
-} from "@lib/zod/schemas/index";
-import { getTimeFromDate } from "@utils/getTimeFromDate";
+} from "@lib/zod/schemas";
+import getTimeFromDate from "@utils/getTimeFromDate";
 
 /**
  * @param {Object} props
@@ -33,7 +31,7 @@ export default function CreateWatchParty({ existingPartiesData }) {
 			{({ submit }) => {
 				return (
 					<form
-						action={"/api/watch-party/new"}
+						action={"/api/watch-party"}
 						method="post"
 						ref={formRef}
 						onSubmit={async (e) => {
@@ -43,11 +41,7 @@ export default function CreateWatchParty({ existingPartiesData }) {
 							formRef.current.submit();
 						}}
 					>
-						<Field
-							name="party-date"
-							initialValue={todayDateString}
-							onSubmitValidate={dateStringSchema}
-						>
+						<Field name="party-date" initialValue={todayDateString}>
 							{({ value, setValue, errors, onBlur }) => (
 								<div>
 									<label>
@@ -78,7 +72,6 @@ export default function CreateWatchParty({ existingPartiesData }) {
 						</Field>
 						<Field
 							name="party-time"
-							onSubmitValidate={timeStringSchema}
 							initialValue={getTimeFromDate(
 								availablePartyTimes[0]
 							)}

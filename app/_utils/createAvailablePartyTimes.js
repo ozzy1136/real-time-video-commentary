@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { dateStringSchema } from "@lib/zod/schemas/index";
+import { dateStringSchema } from "@lib/zod/schemas";
 
 const availablePartyTimeSchema = z.date();
 
