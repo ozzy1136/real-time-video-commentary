@@ -3,11 +3,16 @@
 import { z } from "zod";
 import { Form, Field } from "houseform";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import createAvailablePartyTimes from "@utils/createAvailablePartyTimes";
 import { createDateElDateString } from "@utils/createDateElementDate";
-import { partyDataSchema, timeStringSchema } from "@lib/zod/schemas/index";
+import {
+	dateStringSchema,
+	partyDataSchema,
+	timeStringSchema,
+} from "@lib/zod/schemas/index";
+import { getTimeFromDate } from "@utils/getTimeFromDate";
 
 /**
  * @param {Object} props
@@ -15,57 +20,40 @@ import { partyDataSchema, timeStringSchema } from "@lib/zod/schemas/index";
  */
 export default function CreateWatchParty({ existingPartiesData }) {
 	const todayDateString = createDateElDateString(new Date());
-	const existingPartiesDataTimes = existingPartiesData.map((i) =>
-		new Date(i.start_time).getTime()
+	const existingPartiesDataTimes = existingPartiesData.map(
+		(i) => i.start_time
 	);
+	const formRef = useRef(null);
 	const [availablePartyTimes, setAvailablePartyTimes] = useState(
 		createAvailablePartyTimes(todayDateString, existingPartiesDataTimes)
 	);
-	const [isLoading, setIsLoading] = useState(false);
-
-	/**
-	 * @param {Record<string, any>} formValues
-	 */
-	async function handleFormSubmit(formValues) {
-		setIsLoading(true);
-		const res = await fetch("/api/watch-party/new", {
-			method: "POST",
-			body: JSON.stringify(formValues),
-		});
-		const data = await res.json();
-		console.log(JSON.stringify(data));
-		setIsLoading(false);
-	}
 
 	return (
-		<Form onSubmit={handleFormSubmit}>
-			{({ isValid, submit }) => {
+		<Form>
+			{({ submit }) => {
 				return (
 					<form
-						onSubmit={(e) => {
+						action={"/api/watch-party/new"}
+						method="post"
+						ref={formRef}
+						onSubmit={async (e) => {
 							e.preventDefault();
-							submit();
+							const isValid = await submit();
+							if (!isValid) return;
+							formRef.current.submit();
 						}}
 					>
 						<Field
 							name="party-date"
 							initialValue={todayDateString}
-							onBlurValidate={z
-								.string()
-								.pipe(
-									z.coerce
-										.date()
-										.min(
-											new Date(todayDateString),
-											"You must choose today's date or a later date"
-										)
-								)}
+							onSubmitValidate={dateStringSchema}
 						>
 							{({ value, setValue, errors, onBlur }) => (
 								<div>
 									<label>
 										Pick a date{" "}
 										<input
+											name="party-date"
 											type="date"
 											value={value}
 											onChange={(e) => {
@@ -90,16 +78,17 @@ export default function CreateWatchParty({ existingPartiesData }) {
 						</Field>
 						<Field
 							name="party-time"
-							onBlurValidate={timeStringSchema}
-							initialValue={availablePartyTimes[0]
-								.toTimeString()
-								.slice(0, 5)}
+							onSubmitValidate={timeStringSchema}
+							initialValue={getTimeFromDate(
+								availablePartyTimes[0]
+							)}
 						>
 							{({ value, setValue, errors, onBlur }) => (
 								<div>
 									<label>
 										Pick a time
 										<select
+											name="party-time"
 											value={value}
 											onChange={(e) =>
 												setValue(e.currentTarget.value)
@@ -109,14 +98,12 @@ export default function CreateWatchParty({ existingPartiesData }) {
 										>
 											{availablePartyTimes.map((time) => (
 												<option
-													value={`${time
-														.toTimeString()
-														.slice(0, 5)}`}
+													value={getTimeFromDate(
+														time
+													)}
 													key={time.getTime()}
 												>
-													{`${time
-														.toTimeString()
-														.slice(0, 5)}`}
+													{getTimeFromDate(time)}
 												</option>
 											))}
 										</select>
@@ -127,9 +114,7 @@ export default function CreateWatchParty({ existingPartiesData }) {
 								</div>
 							)}
 						</Field>
-						<button disabled={!isValid || isLoading} type="submit">
-							Create Party
-						</button>
+						<button type="submit">Create Party</button>
 					</form>
 				);
 			}}

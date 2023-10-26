@@ -1,44 +1,56 @@
 import { z } from "zod";
 
-import { createDateElDateString } from "./createDateElementDate";
+import { dateStringSchema } from "@lib/zod/schemas/index";
 
 const availablePartyTimeSchema = z.date();
 
 /**
- * @param {string} partyDateString
- * @param {Array<number>} existingPartiesTimes Result of calling toString on Dates for existing parties start time
+ * @param {z.input<typeof dateStringSchema>} partyDateString
+ * @param {Array<number>} existingPartiesTimes Seconds since epoch of party time
  * @returns {Array<z.infer<typeof availablePartyTimeSchema>>}
  */
 export default function createAvailablePartyTimes(
 	partyDateString,
 	existingPartiesTimes
 ) {
-	const today = new Date();
-	const partyDate =
-		partyDateString > createDateElDateString(today)
-			? new Date(`${partyDateString}T00:00:00`)
-			: new Date(today);
-	const dayAfterPartyDate = new Date(
-		partyDate.getFullYear(),
-		partyDate.getMonth(),
-		partyDate.getDate() + 1
-	);
 	const partyIntervalsInMinutes = 20;
+	/**
+	 * Use local time methods
+	 */
+	const todayDate = new Date();
+	/**
+	 * Use UTC time methods
+	 */
+	const partyDate = new Date(partyDateString);
+	/**
+	 * Use UTC time methods
+	 */
+	const dayAfterPartyDate = new Date(
+		partyDate.getUTCFullYear(),
+		partyDate.getUTCMonth(),
+		partyDate.getUTCDate() + 1
+	);
 
-	if (partyDate.getTime() === today.getTime()) {
-		partyDate.setMinutes(
-			partyDate.getMinutes() +
+	dayAfterPartyDate.setUTCHours(0, 0, 0, 0);
+
+	if (partyDate.getUTCDate() === todayDate.getDate()) {
+		partyDate.setUTCHours(
+			todayDate.getHours(),
+			todayDate.getMinutes() +
 				partyIntervalsInMinutes -
-				(partyDate.getMinutes() % partyIntervalsInMinutes)
+				(todayDate.getMinutes() % partyIntervalsInMinutes)
 		);
 	}
 
 	const availablePartyTimes = [];
 
 	while (partyDate < dayAfterPartyDate) {
-		!existingPartiesTimes.includes(partyDate.getTime()) &&
+		if (!existingPartiesTimes.includes(partyDate.getTime())) {
 			availablePartyTimes.push(new Date(partyDate));
-		partyDate.setMinutes(partyDate.getMinutes() + partyIntervalsInMinutes);
+		}
+		partyDate.setUTCMinutes(
+			partyDate.getUTCMinutes() + partyIntervalsInMinutes
+		);
 	}
 
 	return availablePartyTimes;

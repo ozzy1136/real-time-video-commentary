@@ -5,7 +5,7 @@ export const partyDataSchema = z.object({
 	creator_id: z.string(),
 	id: z.string(),
 	movie_runtime: z.number(),
-	start_time: z.string(),
+	start_time: z.number(),
 	tmdb_id: z.number(),
 });
 
@@ -18,5 +18,17 @@ export const postgrestErrorSchema = z
 	})
 	.nullable();
 
-// TODO complete schema for time string
-export const timeStringSchema = z.string().regex(/[\d]{2}:[\d]{2}/);
+export const dateStringSchema = z
+	.string()
+	.pipe(
+		z.coerce
+			.date()
+			.min(
+				new Date(new Date().setUTCHours(0, 0, 0, 0)),
+				"You must choose a date from today"
+			)
+	);
+
+export const timeStringSchema = z
+	.string()
+	.regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/);
