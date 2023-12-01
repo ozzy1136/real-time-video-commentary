@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import createDateElDateString from "@utils/createDateElementDate";
+
 export const partyDataSchema = z.object({
 	created_at: z.string(),
 	creator_id: z.string(),
@@ -20,15 +22,11 @@ export const postgrestErrorSchema = z
 
 export const dateStringSchema = z
 	.string()
-	.pipe(
-		z.coerce
-			.date()
-			.min(
-				new Date(new Date().setUTCHours(0, 0, 0, 0)),
-				"You must choose a date from today"
-			)
-	);
+	.pipe(z.coerce.date().min(new Date(createDateElDateString(new Date()))))
+	.transform((val) => createDateElDateString(val));
 
 export const timeStringSchema = z
 	.string()
 	.regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/);
+
+export const movieIdSchema = z.string().regex(/^(?=(\d{1,10}))\1$/);

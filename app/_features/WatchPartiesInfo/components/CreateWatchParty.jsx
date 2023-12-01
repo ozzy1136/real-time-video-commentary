@@ -21,28 +21,30 @@ export default function CreateWatchParty({ existingPartiesData }) {
 	const existingPartiesDataTimes = existingPartiesData.map(
 		(i) => i.start_time
 	);
-	const formRef = useRef(null);
-	const [availablePartyTimes, setAvailablePartyTimes] = useState(
-		createAvailablePartyTimes(todayDateString, existingPartiesDataTimes)
-	);
+	const htmlFormRef = useRef(null);
+	const [availablePartyTimes, setAvailablePartyTimes] = useState([]);
 
 	return (
 		<Form>
-			{({ submit }) => {
+			{({ submit, isValid }) => {
 				return (
 					<form
 						action={"/api/watch-party"}
 						method="post"
-						ref={formRef}
+						ref={htmlFormRef}
 						onSubmit={async (e) => {
 							e.preventDefault();
 							const isValid = await submit();
 							if (!isValid) return;
-							formRef.current.submit();
+							htmlFormRef.current.submit();
 						}}
 					>
-						<Field name="party-date" initialValue={todayDateString}>
-							{({ value, setValue, errors, onBlur }) => (
+						<Field
+							name="party-date"
+							initialValue={todayDateString}
+							onBlurValidate={dateStringSchema}
+						>
+							{({ value, setValue, errors }) => (
 								<div>
 									<label>
 										Pick a date{" "}
@@ -52,14 +54,15 @@ export default function CreateWatchParty({ existingPartiesData }) {
 											value={value}
 											onChange={(e) => {
 												setValue(e.currentTarget.value);
+											}}
+											onBlur={(e) => {
 												setAvailablePartyTimes(
 													createAvailablePartyTimes(
-														e.currentTarget.value,
+														e.target.value,
 														existingPartiesDataTimes
 													)
 												);
 											}}
-											onBlur={onBlur}
 											min={todayDateString}
 											required
 										/>
@@ -70,43 +73,53 @@ export default function CreateWatchParty({ existingPartiesData }) {
 								</div>
 							)}
 						</Field>
-						<Field
-							name="party-time"
-							initialValue={getTimeFromDate(
-								availablePartyTimes[0]
-							)}
-						>
-							{({ value, setValue, errors, onBlur }) => (
-								<div>
-									<label>
-										Pick a time
-										<select
-											name="party-time"
-											value={value}
-											onChange={(e) =>
-												setValue(e.currentTarget.value)
-											}
-											onBlur={onBlur}
-											required
-										>
-											{availablePartyTimes.map((time) => (
-												<option
-													value={getTimeFromDate(
-														time
-													)}
-													key={time.getTime()}
-												>
-													{getTimeFromDate(time)}
-												</option>
-											))}
-										</select>
-									</label>
-									{errors.map((error) => (
-										<p key={error}>{error}</p>
-									))}
-								</div>
-							)}
-						</Field>
+						{isValid && (
+							<Field
+								name="party-time"
+								initialValue={
+									availablePartyTimes.length > 0
+										? getTimeFromDate(
+												availablePartyTimes[0]
+										  )
+										: ""
+								}
+								onBlurValidate={timeStringSchema}
+							>
+								{({ value, setValue, errors }) => (
+									<div>
+										<label>
+											Pick a time
+											<select
+												name="party-time"
+												value={value}
+												onChange={(e) =>
+													setValue(
+														e.currentTarget.value
+													)
+												}
+												required
+											>
+												{availablePartyTimes.map(
+													(time) => (
+														<option
+															value={getTimeFromDate(
+																time
+															)}
+															key={time.getTime()}
+														>
+															{time.toUTCString()}
+														</option>
+													)
+												)}
+											</select>
+										</label>
+										{errors.map((error) => (
+											<p key={error}>{error}</p>
+										))}
+									</div>
+								)}
+							</Field>
+						)}
 						<button type="submit">Create Party</button>
 					</form>
 				);
