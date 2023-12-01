@@ -20,13 +20,19 @@ export const metadata = {
  * @param {RouteParams} props.params
  */
 export default async function MovieDetailsPage({ params }) {
-	const movieData = await getMovieDetails(params.id);
+	const { movieData, error, isNotFound } = await getMovieDetails(params.id);
 
-	if (!movieData.success) {
+	if (isNotFound) {
 		notFound();
 	}
 
-	return (
+	if (error) {
+		console.log(error);
+	}
+
+	const view = error ? (
+		<p>There was an error getting the movie details. Try again.</p>
+	) : (
 		<main className={`section-container ${styles.container}`}>
 			<div className={styles.titleWrapper}>
 				<h1 className={styles.title}>{movieData.title}</h1>
@@ -42,7 +48,7 @@ export default async function MovieDetailsPage({ params }) {
 			<div className={styles.posterWrapper}>
 				<Image
 					src={ShazamMoviePoster}
-					// src={`${process.env.NEXT_PUBLIC_TMDB_POSTERS_BASE_URL}${movieData.posterPath}`}
+					// src={`${process.env.NEXT_PUBLIC_TMDB_POSTERS_BASE_URL}${movieData.poster_path}`}
 					alt={`Theatrical poster for the movie ${movieData.title}`}
 					width={500}
 					height={750}
@@ -55,4 +61,6 @@ export default async function MovieDetailsPage({ params }) {
 			</div>
 		</main>
 	);
+
+	return view;
 }

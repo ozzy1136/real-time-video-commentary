@@ -1,12 +1,16 @@
-import createURL from "@utils/createURL";
+import { z } from "zod";
+
 import movieData from "@data/shazamMovieData";
 import popularMoviesData from "@data/popularMoviesData";
+import createURL from "@utils/createURL";
+import { movieIdSchema } from "@lib/zod/schemas";
 
 /**
  * @typedef {Object} MovieDetails
  * @property {boolean} [adult]
  * @property {string} [backdrop_path]
- * @property {{id: number, name: string, poster_path: string, backdrop_path: string}} [belongs_to_collection]
+ * @property {{id: number, name: string, poster_path: string
+ * , backdrop_path: string}} [belongs_to_collection]
  * @property {number} [budget]
  * @property {Array<{id: number, name: string}>} [genres]
  * @property {string} [homepage]
@@ -33,30 +37,42 @@ import popularMoviesData from "@data/popularMoviesData";
  */
 
 /**
- * @async
  * @param {string} id
- * @returns {Promise<MovieDetails>}
  */
 export async function getMovieDetails(id) {
-	const data = { ...movieData, success: true };
-	return data;
-	// if (id.match(/^(?=(\d{1,10}))\1$/)) {
-	// 	const fetchRequestForMovieDetails = new Request(
-	// 		`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${id}`,
-	// 		{
-	// 			method: "GET",
-	// 			headers: {
-	// 				Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-	// 			},
-	// 		}
-	// 	);
-	// 	const response = await fetch(fetchRequestForMovieDetails);
-	// 	const data = await response.json();
-	// 	data.success = true;
-	// 	return Promise.resolve(data);
-	// } else {
-	// 	return Promise.resolve({ success: false });
-	// }
+	try {
+		const movieId = movieIdSchema.parse(id);
+		const res = await fetch(
+			`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${movieId}`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
+				},
+			}
+		);
+		if (!res.ok) {
+			const error = new Error(
+				"An error occurred while fetching the data."
+			);
+			error.info = await res.json();
+			error.status = res.status;
+			throw error;
+		}
+		/**
+		 * @type {MovieDetails}
+		 */
+		const data = await res.json();
+		return { movieData: data };
+		return { movieData: movieData };
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return { isNotFound: true };
+		}
+		if (error.status === 404) {
+			return { isNotFound: true };
+		}
+		return { error };
+	}
 }
 
 /**
@@ -86,43 +102,33 @@ export async function getMovieDetails(id) {
  * @property {boolean} success
  */
 
-/**
- * @async
- * @returns {Promise<PopularMovies>}
- */
 export async function getPopularMovies() {
-	const data = { ...popularMoviesData, success: true };
-	return data;
-
-	// const requestURL = createURL(
-	// 	process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
-	// 	"/discover/movie",
-	// 	[
-	// 		["region", "US"],
-	// 		["release_date.gte", "2022-01-09"],
-	// 		["watch_region", "US"],
-	// 		["with_release_type", "4"],
-	// 		["with_watch_monetization_types", "flatrate"],
-	// 	]
-	// );
-
-	// const fetchRequestForPopularMovies = new Request(requestURL.href, {
-	// 	method: "GET",
-	// 	headers: {
-	// 		Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-	// 	},
-	// 	cache: "no-cache",
-	// });
-
-	// const response = await fetch(fetchRequestForPopularMovies);
-
-	// if (!response.ok) {
-	// 	return Promise.resolve({
-	// 		success: false,
-	// 	});
-	// }
-
-	// const data = await response.json();
-	// data.success = true;
-	// return Promise.resolve(data);
+	try {
+		// const res = await fetch(
+		// 	createURL(
+		// 		process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
+		// 		"/discover/movie",
+		// 		[
+		// 			["region", "US"],
+		// 			["release_date.gte", "2022-01-09"],
+		// 			["watch_region", "US"],
+		// 			["with_release_type", "4"],
+		// 			["with_watch_monetization_types", "flatrate"],
+		// 		]
+		// 	).href,
+		// 	{
+		// 		headers: {
+		// 			Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
+		// 		},
+		// 	}
+		// );
+		// /**
+		//  * @type {PopularMovies}
+		//  */
+		// const data = await res.json();
+		// return { popularMoviesData: data };
+		return { popularMoviesData: popularMoviesData };
+	} catch (error) {
+		return { error };
+	}
 }
