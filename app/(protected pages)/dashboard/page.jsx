@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import PopularMoviesList from "@features/ShowTMDBPopularMovies";
+import PopularMoviesList from "@features/PopularMoviesList";
 
 export const metadata = {
 	title: "Dashboard | Real Time Video Commentary",

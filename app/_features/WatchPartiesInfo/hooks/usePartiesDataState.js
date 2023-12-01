@@ -4,7 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import { useReducer, useEffect } from "react";
 
-import { partyDataSchema, postgrestErrorSchema } from "@lib/zod/schemas/index";
+import { partyDataSchema, postgrestErrorSchema } from "@lib/zod/schemas";
 
 const partyReducerActionSchema = z.discriminatedUnion("type", [
 	z.object({

@@ -1,7 +1,7 @@
 /**
  * @param {string} baseUrl
  * @param {string} [pathname]
- * @param {Array<{key: string, value: string}>} [searchParams]
+ * @param {Array<[key: string, value: string]>} [searchParams]
  * @returns {URL}
  */
 export default function createURL(baseUrl, pathname, searchParams) {
