@@ -4,20 +4,11 @@ import styles from "./index.module.css";
 import { getPopularMovies } from "@services/tmdb";
 
 export default async function PopularMoviesList() {
-	const popularMoviesData = await getPopularMovies();
+	const { popularMoviesData, error } = await getPopularMovies();
 
-	if (!popularMoviesData.success) {
-		return (
-			<div>
-				<p>
-					There was an error while searching for popular movies.
-					Refresh the page to get information about popular movies.
-				</p>
-			</div>
-		);
-	}
-
-	return (
+	const view = error ? (
+		<p>There was an error getting popular movies. Try again later.</p>
+	) : (
 		<ul className={styles.popularMoviesContainer}>
 			{popularMoviesData.results.map((movieInfo) => (
 				<li key={movieInfo.id}>
@@ -28,4 +19,6 @@ export default async function PopularMoviesList() {
 			))}
 		</ul>
 	);
+
+	return view;
 }
