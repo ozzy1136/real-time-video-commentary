@@ -4,6 +4,7 @@ import movieData from "@data/shazamMovieData";
 import popularMoviesData from "@data/popularMoviesData";
 import createURL from "@utils/createURL";
 import { movieIdSchema } from "@lib/zod/schemas";
+import { jsonFetcher } from "@utils/fetch";
 
 /**
  * @typedef {Object} MovieDetails
@@ -33,7 +34,6 @@ import { movieIdSchema } from "@lib/zod/schemas";
  * @property {boolean} [video]
  * @property {number} [vote_average]
  * @property {number} [vote_count]
- * @property {boolean} success
  */
 
 /**
@@ -41,28 +41,19 @@ import { movieIdSchema } from "@lib/zod/schemas";
  */
 export async function getMovieDetails(id) {
 	try {
-		const movieId = movieIdSchema.parse(id);
-		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${movieId}`,
-			{
-				headers: {
-					Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
-				},
-			}
-		);
-		if (!res.ok) {
-			const error = new Error(
-				"An error occurred while fetching the data."
-			);
-			error.info = await res.json();
-			error.status = res.status;
-			throw error;
-		}
-		/**
-		 * @type {MovieDetails}
-		 */
-		const data = await res.json();
-		return { movieData: data };
+		// const movieId = movieIdSchema.parse(id);
+		// /**
+		//  * @type {MovieDetails}
+		//  */
+		// const data = await jsonFetcher([
+		// 	`${process.env.NEXT_PUBLIC_TMDB_API_BASE_URL}/movie/${movieId}`,
+		// 	{
+		// 		headers: {
+		// 			Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
+		// 		},
+		// 	},
+		// ]);
+		// return { movieData: data };
 		return { movieData: movieData };
 	} catch (error) {
 		if (error instanceof z.ZodError) {
@@ -99,12 +90,14 @@ export async function getMovieDetails(id) {
  * @property {Array<DiscoverMovieDetails>} [results]
  * @property {number} [total_pages]
  * @property {number} [total_results]
- * @property {boolean} success
  */
 
 export async function getPopularMovies() {
 	try {
-		// const res = await fetch(
+		/**
+		 * @type {PopularMovies}
+		 */
+		// const data = await jsonFetcher([
 		// 	createURL(
 		// 		process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
 		// 		"/discover/movie",
@@ -120,12 +113,8 @@ export async function getPopularMovies() {
 		// 		headers: {
 		// 			Authorization: `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
 		// 		},
-		// 	}
-		// );
-		// /**
-		//  * @type {PopularMovies}
-		//  */
-		// const data = await res.json();
+		// 	},
+		// ]);
 		// return { popularMoviesData: data };
 		return { popularMoviesData: popularMoviesData };
 	} catch (error) {
