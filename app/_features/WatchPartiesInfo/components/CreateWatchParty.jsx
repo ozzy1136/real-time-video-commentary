@@ -88,7 +88,7 @@ export default function CreateWatchParty({ partiesData }) {
 					>
 						<Field
 							name="party-date"
-							initialValue={""}
+							initialValue={todayDateString}
 							onChangeValidate={dateStringSchema}
 						>
 							{({ value, setValue, onBlur, errors }) => (
