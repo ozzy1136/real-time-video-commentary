@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import createDateElDateString from "@utils/createDateElementDate";
+import { getDayjsDate } from "@lib/dayjs";
 
 export const partyDataSchema = z.object({
 	created_at: z.string(),
@@ -22,8 +22,7 @@ export const postgrestErrorSchema = z
 
 export const dateStringSchema = z
 	.string()
-	.pipe(z.coerce.date().min(new Date(createDateElDateString(new Date()))))
-	.transform((val) => createDateElDateString(val));
+	.pipe(z.coerce.date().min(getDayjsDate().utc().startOf("day").toDate()));
 
 export const timeStringSchema = z
 	.string()

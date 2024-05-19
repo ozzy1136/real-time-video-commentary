@@ -28,7 +28,7 @@ export default function WatchPartyInfo({ id }) {
 	return (
 		<>
 			<AvailableMovieWatchParties partiesData={partiesDataState.data} />
-			<CreateWatchParty existingPartiesData={partiesDataState.data} />
+			<CreateWatchParty partiesData={partiesDataState.data} />
 		</>
 	);
 }

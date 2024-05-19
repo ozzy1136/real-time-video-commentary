@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { dateStringSchema } from "@lib/zod/schemas";
+import { getDayjsDate } from "@lib/dayjs";
 
 const availablePartyTimeSchema = z.date();
 
@@ -11,46 +12,31 @@ const availablePartyTimeSchema = z.date();
  */
 export default function createAvailablePartyTimes(
 	partyDateString,
-	existingPartiesTimes
+	existingPartiesTimes,
 ) {
-	const partyIntervalsInMinutes = 20;
-	/**
-	 * Use local time methods
-	 */
-	const todayDate = new Date();
-	/**
-	 * Use UTC time methods
-	 */
-	const partyDate = new Date(partyDateString);
-	/**
-	 * Use UTC time methods
-	 */
-	const dayAfterPartyDate = new Date(
-		partyDate.getUTCFullYear(),
-		partyDate.getUTCMonth(),
-		partyDate.getUTCDate() + 1
-	);
-
-	dayAfterPartyDate.setUTCHours(0, 0, 0, 0);
-
-	if (partyDate.getUTCDate() === todayDate.getDate()) {
-		partyDate.setUTCHours(
-			todayDate.getHours(),
-			todayDate.getMinutes() +
-				partyIntervalsInMinutes -
-				(todayDate.getMinutes() % partyIntervalsInMinutes)
-		);
-	}
-
 	const availablePartyTimes = [];
+	const partyIntervalsInMinutes = 20;
+	const now = getDayjsDate();
+	const dayOfParty =
+		partyDateString === now.format("YYYY-MM-DD")
+			? getDayjsDate(partyDateString, "YYYY-MM-DD")
+					.hour(now.hour())
+					.minute(
+						now.minute() +
+							partyIntervalsInMinutes -
+							(now.minute() % partyIntervalsInMinutes),
+					)
+			: getDayjsDate(partyDateString, "YYYY-MM-DD");
+	const dayAfterParty = dayOfParty.add(1, "day").startOf("day");
 
-	while (partyDate < dayAfterPartyDate) {
-		if (!existingPartiesTimes.includes(partyDate.getTime())) {
-			availablePartyTimes.push(new Date(partyDate));
+	for (
+		let curr = dayOfParty.clone();
+		curr.isBefore(dayAfterParty);
+		curr = curr.minute(curr.minute() + partyIntervalsInMinutes)
+	) {
+		if (!existingPartiesTimes.includes(curr.valueOf())) {
+			availablePartyTimes.push(curr.toDate());
 		}
-		partyDate.setUTCMinutes(
-			partyDate.getUTCMinutes() + partyIntervalsInMinutes
-		);
 	}
 
 	return availablePartyTimes;
