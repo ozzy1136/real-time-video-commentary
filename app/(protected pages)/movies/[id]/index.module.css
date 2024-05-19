@@ -10,8 +10,19 @@
 }
 
 .posterWrapper {
-	display: flex;
-	justify-content: center;
+	margin-inline: auto;
+}
+
+.partiesWrapper {
+	& > form {
+		& > div {
+			margin-block-start: 0.5em;
+		}
+
+		& > button {
+			margin-block-start: 1em;
+		}
+	}
 }
 
 .poster {
@@ -35,5 +46,10 @@
 
 	.posterWrapper {
 		grid-column: span 1 / wrapper-end;
+		grid-row: 1 / span 2;
+	}
+
+	.partiesWrapper {
+		grid-column-end: span 1;
 	}
 }

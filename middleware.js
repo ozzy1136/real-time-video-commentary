@@ -2,6 +2,8 @@ import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 
 import { NextRequest, NextResponse } from "next/server";
 
+// TODO handle new user sign up routing
+
 /**
  * @param {NextRequest} req
  */
@@ -20,8 +22,8 @@ export async function middleware(req) {
 		) {
 			return NextResponse.redirect(
 				`${req.nextUrl.origin}/?redirectedFrom=${encodeURIComponent(
-					req.nextUrl.pathname
-				)}`
+					req.nextUrl.pathname,
+				)}`,
 			);
 		}
 	}

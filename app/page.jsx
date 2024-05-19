@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import styles from "./index.module.css";
 import UserSignIn from "@features/UserSignIn";
 
@@ -18,7 +19,9 @@ export default async function HomePage() {
 					watching with your friends!
 				</p>
 			</div>
-			<UserSignIn />
+			<Suspense>
+				<UserSignIn />
+			</Suspense>
 		</main>
 	);
 }
