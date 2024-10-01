@@ -10,8 +10,9 @@ export default function WatchPartyTimeSelector({
 	return (
 		<div>
 			<label>
-				Pick a time
+				Pick a time{" "}
 				<select
+					name="party-time"
 					value={value}
 					onChange={(e) => setValue(e.currentTarget.value)}
 					onBlur={onBlur}

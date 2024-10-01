@@ -8,21 +8,30 @@ dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 
 /**
- *
- * @param {string|Date} [dateObj]
- * @param {string} [customFormatString]
+ * @param {Object} [config]
+ * @param {string|Date} [config.dateObj]
+ * @param {string} [config.customStringFormat]
+ * @param {boolean} [config.asUTC]
  * @returns {dayjs.Dayjs}
  */
-export function getDayjsDate(dateObj, customFormatString) {
-	if (dateObj === undefined) {
-		return dayjs();
+export function getDayjsDate({ dateObj, customStringFormat, asUTC } = {}) {
+	if (typeof dateObj === "string" && customStringFormat?.length) {
+		if (asUTC) {
+			return dayjs.utc(dateObj, customStringFormat);
+		}
+		return dayjs(dateObj, customStringFormat);
+	} else if (dateObj) {
+		if (asUTC) {
+			return dayjs.utc(dateObj);
+		}
+		return dayjs(dateObj);
 	}
 
-	if (typeof dateObj === "string" && customFormatString?.length) {
-		return dayjs(dateObj, customFormatString);
+	if (asUTC) {
+		return dayjs.utc();
 	}
 
-	return dayjs(dateObj);
+	return dayjs();
 }
 
 /**

@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 
+import { getDayjsDate } from "@lib/dayjs";
+
 export default function DateSelector({
 	value,
 	setValue,
 	onBlur,
 	errors,
 	dispatchAvailableTimes,
-	existingPartyTimes,
+	partiesData,
 	todayDateString,
 }) {
 	useEffect(() => {
@@ -23,7 +25,7 @@ export default function DateSelector({
 				type: "set-times",
 				payload: {
 					value: value,
-					partyDates: existingPartyTimes,
+					partiesData: partiesData,
 				},
 			});
 		}, 1750);
@@ -31,13 +33,14 @@ export default function DateSelector({
 		return () => {
 			clearTimeout(timeoutId);
 		};
-	}, [value, errors, dispatchAvailableTimes, existingPartyTimes]);
+	}, [value, errors, dispatchAvailableTimes, partiesData]);
 
 	return (
 		<div>
 			<label>
 				Pick a date{" "}
 				<input
+					name="party-date"
 					type="date"
 					value={value}
 					onChange={(e) => {

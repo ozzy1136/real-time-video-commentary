@@ -22,7 +22,11 @@ export const postgrestErrorSchema = z
 
 export const dateStringSchema = z
 	.string()
-	.pipe(z.coerce.date().min(getDayjsDate().utc().startOf("day").toDate()));
+	.pipe(
+		z.coerce
+			.date()
+			.min(getDayjsDate({ asUTC: true }).startOf("day").toDate()),
+	);
 
 export const timeStringSchema = z
 	.string()
