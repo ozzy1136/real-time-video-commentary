@@ -23,12 +23,15 @@ export const postgrestErrorSchema = z
 export const dateStringSchema = z.preprocess(
 	(arg) =>
 		typeof arg === "string"
-			? getDayjsDate({ dateObj: arg }).toDate()
+			? getDayjsDate({
+					dateObj: arg,
+					customStringFormat: "YYYY-MM-DD",
+			  }).toDate()
 			: undefined,
 	z
 		.date()
 		.min(getDayjsDate().startOf("day").toDate())
-		.max(getDayjsDate().startOf("day").add(1, "month").toDate()),
+		.max(getDayjsDate().endOf("day").add(1, "month").toDate()),
 );
 
 export const timeStringSchema = z
