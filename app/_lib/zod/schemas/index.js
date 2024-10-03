@@ -25,7 +25,10 @@ export const dateStringSchema = z.preprocess(
 		typeof arg === "string"
 			? getDayjsDate({ dateObj: arg }).toDate()
 			: undefined,
-	z.date().min(getDayjsDate().startOf("day").toDate()),
+	z
+		.date()
+		.min(getDayjsDate().startOf("day").toDate())
+		.max(getDayjsDate().startOf("day").add(1, "month").toDate()),
 );
 
 export const timeStringSchema = z

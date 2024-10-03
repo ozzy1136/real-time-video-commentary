@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { getDayjsDate } from "@lib/dayjs";
+
 export default function DateSelector({
 	value,
 	setValue,
@@ -46,6 +48,9 @@ export default function DateSelector({
 					}}
 					onBlur={onBlur}
 					min={todayDateString}
+					max={getDayjsDate({ dateObj: todayDateString })
+						.add(1, "month")
+						.format("YYYY-MM-DD")}
 					required
 				/>
 			</label>
