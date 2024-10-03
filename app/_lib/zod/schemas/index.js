@@ -20,13 +20,13 @@ export const postgrestErrorSchema = z
 	})
 	.nullable();
 
-export const dateStringSchema = z
-	.string()
-	.pipe(
-		z.coerce
-			.date()
-			.min(getDayjsDate({ asUTC: true }).startOf("day").toDate()),
-	);
+export const dateStringSchema = z.preprocess(
+	(arg) =>
+		typeof arg === "string"
+			? getDayjsDate({ dateObj: arg }).toDate()
+			: undefined,
+	z.date().min(getDayjsDate().startOf("day").toDate()),
+);
 
 export const timeStringSchema = z
 	.string()

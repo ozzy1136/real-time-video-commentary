@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-import { getDayjsDate } from "@lib/dayjs";
-
 export default function DateSelector({
 	value,
 	setValue,
