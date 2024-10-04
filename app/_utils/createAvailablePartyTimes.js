@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-import { dateStringSchema, partyDataSchema } from "@lib/zod/schemas";
+import { partyDataSchema } from "@lib/zod/schemas";
 import { getDayjsDate } from "@lib/dayjs";
 
 const availablePartyTimeSchema = z.date();
 
 /**
- * @param {z.input<typeof dateStringSchema>} partyDateString
+ * @param {string} partyDateString
  * @param {Array<z.infer<typeof partyDataSchema>>} partiesData
  * @returns {Array<z.infer<typeof availablePartyTimeSchema>>}
  */
