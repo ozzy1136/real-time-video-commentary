@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { Form, Field } from "houseform";
 
-import { useReducer } from "react";
+import { useReducer, useRef } from "react";
 
 import createAvailablePartyTimes from "@utils/createAvailablePartyTimes";
 import {
@@ -61,23 +61,26 @@ function reducer(state, action) {
  * @param {z.infer<typeof partyDataSchema>[]} props.partiesData
  */
 export default function CreateWatchParty({ partiesData }) {
+	const formRef = useRef();
 	const [availableTimes, dispatchAvailableTimes] = useReducer(
 		reducer,
 		initialState,
 	);
 	const todayDateString = getDayjsDate().format("YYYY-MM-DD");
 
-	function createNewWatchParty(values) {
-		alert(values);
-	}
-
 	return (
-		<Form onSubmit={createNewWatchParty}>
+		<Form>
 			{({ submit, isValid }) => (
 				<form
+					action="/api/watch-party"
+					method="post"
+					ref={formRef}
 					onSubmit={(e) => {
 						e.preventDefault();
-						submit();
+						submit().then((isValid) => {
+							if (!isValid) return;
+							formRef.current.submit();
+						});
 					}}
 				>
 					<Field
@@ -102,9 +105,9 @@ export default function CreateWatchParty({ partiesData }) {
 					)}
 					{availableTimes.mode === "error" && null}
 					{availableTimes.mode === "no-times" && (
-						<p>
-							There is already a party with your desired time.
-							Check existing parties.
+						<p aria-live="polite">
+							There are no times available for selected date.
+							Check existing parties or select a new date.
 						</p>
 					)}
 					{availableTimes.mode === "idle" && (
