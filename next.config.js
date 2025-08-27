@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
 	reactStrictMode: true,
+	allowedDevOrigins: [
+		'*.loca.lt'
+	],
 	images: {
 		remotePatterns: [
 			{
